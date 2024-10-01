@@ -46,6 +46,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   void initState() {
     // TODO: implement initState
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _getLocation();
     _mqttConnect = MQTT_Connect();
     _mqttConnect.createState().initState(); // Assuming you have this function in your MQTT_Connect class.
