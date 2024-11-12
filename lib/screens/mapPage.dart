@@ -39,6 +39,27 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   LocationService _locationService = LocationService();
   MQTT_Connect _mqttConnect = MQTT_Connect();
   DateTime now = DateTime.now();
+  
+  List<LatLng> ENT_TO_B23 = [
+    LatLng(1.3327930713846318, 103.77771893587253),
+    LatLng(1.333101, 103.776525),
+    LatLng(1.333618, 103.776227),
+    LatLng(1.333739, 103.775779),
+    LatLng(1.3339219201675242, 103.77574132061896),
+    LatLng(1.335013, 103.775976),
+    LatLng(1.3350826567868576, 103.7754223503998),
+    LatLng(1.3343686930989717, 103.77435631203087),
+    LatLng(1.3329522845882348, 103.77145520892851), //b44
+    LatLng(1.332733, 103.771030),
+    //maybe add one turn more here to make it look nicer ?
+    LatLng(1.332234, 103.771065),
+    LatLng(1.331942, 103.772277),
+    LatLng(1.3327697559194817, 103.77323977064727), //b37
+    LatLng(1.332927, 103.773556),
+    LatLng(1.3324019134469306, 103.7747380910866) , //map
+    LatLng(1.3298012679376835, 103.77465550100018) //hsc
+
+  ];
 
 
 
@@ -101,8 +122,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   Future<void> fetchRoute(LatLng destination) async {
     LatLng start = LatLng(1.3327930713846318, 103.77771893587253);
     var url = Uri.parse(
-        'http://router.project-osrm.org/route/v1/foot/${start.longitude},${start
-            .latitude};${destination.longitude},${destination
+        'http://router.project-osrm.org/route/v1/foot/${destination.longitude},${destination
+            .latitude};${start.longitude},${start
             .latitude}?overview=simplified&steps=true');
     var response = await http.get(url);
 
@@ -139,8 +160,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
-
-    return Scaffold(
+     return Scaffold(
       body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
         children: [
           FlutterMap(
@@ -174,6 +194,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                   polylines: [
                     Polyline(
                       points: routepoints,
+                      //points: ENT_TO_B23,
                       color: Colors.blue,
                       strokeWidth: 5,
                       // Define a single StrokePattern
@@ -181,6 +202,15 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         segments: [1, 7],
                         patternFit: PatternFit.scaleUp,
                       ),
+                    ),
+                    Polyline(
+                      points: ENT_TO_B23,
+                      color: Colors.blue,
+                      strokeWidth: 5,
+                      pattern: StrokePattern.dashed(
+                          segments: [1,7],
+                        patternFit: PatternFit.scaleUp ,
+                      )
                     )
                   ]),
               MarkerLayer(markers: [
