@@ -121,16 +121,17 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
 
   Future<void> fetchRoute(LatLng destination) async {
     LatLng start = LatLng(1.3327930713846318, 103.77771893587253);
+    // TODO: Currently set to morning route, add additional for afternoon route
     var url = Uri.parse(
-        'http://router.project-osrm.org/route/v1/foot/${destination.longitude},${destination
+        'http://router.project-osrm.org/route/v1/car/${destination.longitude},${destination
             .latitude};${start.longitude},${start
-            .latitude}?overview=simplified&steps=true');
+            .latitude};103.7747380910866,1.3324019134469306?overview=simplified&steps=true&continue_straight=true');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
       setState(() {
         routepoints.clear();
-        routepoints.add(start);
+        //routepoints.add(start);
         var data = jsonDecode(response.body);
 
         if (data['routes'] != null) {
@@ -203,6 +204,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         patternFit: PatternFit.scaleUp,
                       ),
                     ),
+                    /**
                     Polyline(
                       points: ENT_TO_B23,
                       color: Colors.blue,
@@ -212,6 +214,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         patternFit: PatternFit.scaleUp ,
                       )
                     )
+                    **/
                   ]),
               MarkerLayer(markers: [
                 Marker(
