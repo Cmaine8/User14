@@ -40,24 +40,37 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   MQTT_Connect _mqttConnect = MQTT_Connect();
   DateTime now = DateTime.now();
   
-  List<LatLng> ENT_TO_B23 = [
-    LatLng(1.3327930713846318, 103.77771893587253),
-    LatLng(1.333101, 103.776525),
-    LatLng(1.333618, 103.776227),
-    LatLng(1.333739, 103.775779),
-    LatLng(1.3339219201675242, 103.77574132061896),
-    LatLng(1.335013, 103.775976),
-    LatLng(1.3350826567868576, 103.7754223503998),
-    LatLng(1.3343686930989717, 103.77435631203087),
-    LatLng(1.3329522845882348, 103.77145520892851), //b44
-    LatLng(1.332733, 103.771030),
-    //maybe add one turn more here to make it look nicer ?
-    LatLng(1.332234, 103.771065),
-    LatLng(1.331942, 103.772277),
-    LatLng(1.3327697559194817, 103.77323977064727), //b37
-    LatLng(1.332927, 103.773556),
-    LatLng(1.3324019134469306, 103.7747380910866) , //map
-    LatLng(1.3298012679376835, 103.77465550100018) //hsc
+  List<LatLng> AM_KAP = [
+    // TODO: currently set to OPPKAP instead of KAP
+    LatLng(1.3365156413692888, 103.78278794804254), // KAP
+    LatLng(1.326394, 103.775705), // UTURN
+    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3324019134469306, 103.7747380910866), // MAP
+  ];
+
+  List<LatLng> AM_CLE = [
+    LatLng(1.3153179405495476, 103.76538319080443), // CLE
+    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3324019134469306, 103.7747380910866), // MAP
+  ];
+
+  List<LatLng> PM_KAP = [
+    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3339219201675242, 103.77574132061896), // B23
+    LatLng(1.3350826567868576, 103.7754223503998), // SPH
+    LatLng(1.3343686930989717, 103.77435631203087), // SIT
+    LatLng(1.3329522845882348, 103.77145520892851), // B44
+    LatLng(1.3327697559194817, 103.77323977064727), // B37
+    LatLng(1.3324019134469306, 103.7747380910866), // MAP
+    //TODO: something wrong with MAP to HSC
+    // LatLng(1.3298012679376835, 103.77465550100018), // HSC
+    //TODO: something wrong with HSC to LCT
+    // LatLng(1.3311533369747423, 103.77490110804173), // LCT
+    // LatLng(1.3312394356934057, 103.77644173403719), // B72
+    // LatLng(1.3365156413692888, 103.78278794804254), // OPPKAP
+  ];
+
+  List<LatLng> PM_CLE = [
 
   ];
 
@@ -100,13 +113,25 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     });
   }
 
-  void updateSelectedBox(int selectedBox) {
+  void updateSelectedBox(int selectedBox) async {
     setState(() {
       this.selectedBox = selectedBox;
-      if (selectedBox == 1)
-        fetchRoute(LatLng(1.3359291665604225, 103.78307744418207));
-      else if (selectedBox == 2)
-        fetchRoute(LatLng(1.3157535241817033, 103.76510924418207));
+      if (selectedBox == 1) { //KAP
+        //fetchRoute(LatLng(1.3359291665604225, 103.78307744418207));
+        //fetchAM_KAPRoute();
+        if (now.hour > startAfternoonService)
+          fetchRoute(PM_KAP);
+        else
+          fetchRoute(AM_KAP);
+      }
+      else if (selectedBox == 2) { //CLE
+        //fetchRoute(LatLng(1.3157535241817033, 103.76510924418207));
+        //fetchAM_CLERoute();
+        if (now.hour > startAfternoonService)
+          fetchRoute(PM_CLE);
+        else
+          fetchRoute(AM_CLE);
+      }
     });
   }
 
@@ -119,13 +144,13 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     super.dispose();
   }
 
-  Future<void> fetchRoute(LatLng destination) async {
-    LatLng start = LatLng(1.3327930713846318, 103.77771893587253);
+
+  Future<void> fetchRoute(List<LatLng> waypoints) async {
+    // LatLng start = LatLng(1.3327930713846318, 103.77771893587253);
+    String waypointsStr = waypoints.map((point) => '${point.longitude},${point.latitude}').join(';');
     // TODO: Currently set to morning route, add additional for afternoon route
     var url = Uri.parse(
-        'http://router.project-osrm.org/route/v1/car/${destination.longitude},${destination
-            .latitude};${start.longitude},${start
-            .latitude};103.7747380910866,1.3324019134469306?overview=simplified&steps=true&continue_straight=true');
+        'http://router.project-osrm.org/route/v1/car/${waypointsStr}?overview=simplified&steps=true&continue_straight=true');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -194,6 +219,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                 //polylineCulling: false,
                   polylines: [
                     Polyline(
+                      // points: now.hour > startAfternoonService ? routePointsAM : routePointsPM,
                       points: routepoints,
                       //points: ENT_TO_B23,
                       color: Colors.blue,
