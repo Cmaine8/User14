@@ -39,6 +39,20 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   LocationService _locationService = LocationService();
   MQTT_Connect _mqttConnect = MQTT_Connect();
   DateTime now = DateTime.now();
+
+  LatLng ENT = LatLng(1.3327930713846318, 103.77771893587253);
+  LatLng CLE = LatLng(1.3153179405495476, 103.76538319080443);
+  LatLng KAP = LatLng(1.3365156413692888, 103.78278794804254);
+  LatLng B23 = LatLng(1.3339219201675242, 103.77574132061896);
+  LatLng SPH = LatLng(1.3350826567868576, 103.7754223503998);
+  LatLng SIT = LatLng(1.3343686930989717, 103.77435631203087);
+  LatLng B44 = LatLng(1.3329522845882348, 103.77145520892851);
+  LatLng B37 = LatLng(1.3327697559194817, 103.77323977064727);
+  LatLng MAP = LatLng(1.3324019134469306, 103.7747380910866);
+  LatLng HSC = LatLng(1.3298012679376835, 103.77465550100018);
+  LatLng LCT = LatLng(1.3311533369747423, 103.77490110804173);
+  LatLng B72 = LatLng(1.3312394356934057, 103.77644173403719);
+
   
   List<LatLng> AM_KAP = [
     // TODO: currently set to OPPKAP instead of KAP
@@ -66,14 +80,13 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     // LatLng(1.3298012679376835, 103.77465550100018), // HSC
     //TODO: something wrong with HSC to LCT
     // LatLng(1.3311533369747423, 103.77490110804173), // LCT
-    // LatLng(1.3312394356934057, 103.77644173403719), // B72
-    // LatLng(1.3365156413692888, 103.78278794804254), // OPPKAP
+    //LatLng(1.3312394356934057, 103.77644173403719), // B72
+    //LatLng(1.3365156413692888, 103.78278794804254), // OPPKAP
   ];
 
   List<LatLng> PM_CLE = [
 
   ];
-
 
 
   @override
@@ -150,7 +163,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     String waypointsStr = waypoints.map((point) => '${point.longitude},${point.latitude}').join(';');
     // TODO: Currently set to morning route, add additional for afternoon route
     var url = Uri.parse(
-        'http://router.project-osrm.org/route/v1/car/${waypointsStr}?overview=simplified&steps=true&continue_straight=true');
+        'http://router.project-osrm.org/route/v1/foot/${waypointsStr}?overview=simplified&steps=true&continue_straight=true');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -185,6 +198,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    // Widget displayPage = Morning_Screen(updateSelectedBox: updateSelectedBox);
     Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
      return Scaffold(
       body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
@@ -262,7 +276,103 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                           arcStartAngle: 0,
                         )
                     )
-                )
+                ),
+                // Marker(
+                //   point: ENT,
+                //   child: Icon(
+                //     CupertinoIcons.location_solid,
+                //     color: Colors.red,
+                //     size: (35),
+                //   )
+                // ),
+                // Marker(
+                //     point: CLE,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: KAP,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: B23,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: SPH,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: SIT,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: B44,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: B37,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: MAP,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: HSC,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: LCT,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
+                // Marker(
+                //     point: B72,
+                //     child: Icon(
+                //       CupertinoIcons.location_solid,
+                //       color: Colors.red,
+                //       size: (35),
+                //     )
+                // ),
               ]),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30.0, 10.0, 0),

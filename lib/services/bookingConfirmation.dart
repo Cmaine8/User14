@@ -105,21 +105,23 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
 
   Future<void> getTime() async {
     try {
-      final uri = Uri.parse('https://worldtimeapi.org/api/timezone/Singapore');
+      final uri = Uri.parse('https://www.timeapi.io/api/time/current/zone?timeZone=ASIA%2FSINGAPORE');
+      // final uri = Uri.parse('https://worldtimeapi.org/api/timezone/Singapore');
       print("Printing URI");
       print(uri);
-      final response = await get(Uri.parse('https://worldtimeapi.org/api/timezone/Singapore'));
+      final response = await get(Uri.parse('https://www.timeapi.io/api/time/current/zone?timeZone=ASIA%2FSINGAPORE'));
+      // final response = await get(Uri.parse('https://worldtimeapi.org/api/timezone/Singapore'));
       print("Printing response");
       print(response);
 
       print(response.body);
       Map data = jsonDecode(response.body);
       print(data);
-      String datetime = data['datetime'];
-      String offset = data['utc_offset'].substring(1, 3);
+      String datetime = data['dateTime']; // timeapi.io is dateTime instead of datetime
+      //String offset = data['utc_offset'].substring(1, 3);
       setState(() {
         time_now = DateTime.parse(datetime);
-        time_now = time_now!.add(Duration(hours: int.parse(offset)));
+        //time_now = time_now!.add(Duration(hours: int.parse(offset)));
       });
     }
     catch (e) {
@@ -180,6 +182,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
 
     if (bookedTime != null) {
       if (time_now == null) {
+        print('time now = $time_now');
         return Container(child: LoadingScroll(isDarkMode: widget.isDarkMode));
       }
       else {
@@ -253,7 +256,7 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
             ],
           ),
         );
-      }
+      }// closed else bracket osdhfkasklvjsokdvno
     }
     else
       return SizedBox();
