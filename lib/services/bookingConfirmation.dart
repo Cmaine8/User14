@@ -216,24 +216,24 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                         BookingConfirmationText(
                             label: 'Trip Number',
                             value: '${bookedTripIndex + 1}',
-                            size: 0.4),
+                            size: 0.5),
                         DrawLine(),
                         BookingConfirmationText(
                             label: 'Time',
                             value: '${bookedTime.hour.toString().padLeft(
                                 2, '0')}:${bookedTime.minute.toString().padLeft(
                                 2, '0')}',
-                            size: 0.55),
+                            size: 0.5),
                         DrawLine(),
                         BookingConfirmationText(
                             label: 'Station',
                             value: '$station',
-                            size: 0.51),
+                            size: 0.5),
                         DrawLine(),
                         BookingConfirmationText(
                             label: 'Bus Stop',
                             value: '${widget.BusStop}',
-                            size: 0.48),
+                            size: 0.5),
                         SizedBox(height: 10),
                         Row(
                           children: [

@@ -15,11 +15,15 @@ class BookingConfirmationText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          label,
-          style: TextStyle(
-            fontFamily: 'Montserrat',
-            fontWeight: FontWeight.bold,
+        Container(
+          height: 25,
+          width: 100,
+          child: Text(
+            label,
+            style: TextStyle(
+              fontFamily: 'Montserrat',
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
         SizedBox(width: MediaQuery.of(context).size.width * size),
