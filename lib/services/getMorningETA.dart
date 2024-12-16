@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project_five/data/global.dart';
 import 'package:mini_project_five/utils/getTime.dart';
 
 class Calculate_MorningBus {
@@ -43,25 +44,42 @@ class Calculate_MorningBus {
 
 
     if (upcomingArrivalTimes.isEmpty) {
-      return Column(
-        children: [
-          buildMorningETADisplay('No upcoming buses available.'),
-          buildMorningETADisplay('No upcoming buses avaiable'),
-        ],
-      );
+      if (selectedMRT == 1) {
+        return Column(
+          children: [
+            buildMorningETADisplay('No upcoming buses available.'),
+            buildMorningETADisplay('No upcoming buses available'),
+          ],
+        );
+      } else if (selectedMRT == 2) {
+        return Column(
+          children: [
+            buildMorningETADisplay('No upcoming buses available.'),
+          ],
+        );
+      }
     } else {
       String upcomingBus = upcomingArrivalTimes[0].difference(currentTime).inMinutes.toString();
       String nextUpcomingBus = upcomingArrivalTimes.length > 1
           ? upcomingArrivalTimes[1].difference(currentTime).inMinutes.toString()
           : ' - ';
-
-      return Column(
+      if (selectedMRT == 1) {
+        return Column(
+          children: [
+            buildMorningETADisplay('Upcoming bus:', ETA: upcomingBus),
+            buildMorningETADisplay('Next bus:', ETA: nextUpcomingBus),
+          ],
+        );
+      }
+      else if (selectedMRT == 2 ) {
+        return Column(
         children: [
           buildMorningETADisplay('Upcoming bus:', ETA: upcomingBus),
-          buildMorningETADisplay('Next bus:', ETA: nextUpcomingBus),
         ],
-      );
+        );
+      }
     }
+    return Column();
   }
 }
 

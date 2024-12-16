@@ -28,6 +28,9 @@ class _MQTT_ConnectState extends State<MQTT_Connect> {
   String topic_loc = 'Bus1Loc';
   String topic_time = 'Bus1Tim';
   String topic_speed = 'Bus1Spd';
+  String topic_stop = 'Bus1Stp';
+  String topic_eta = 'Bus1Eta';
+  String topic_cnt = 'Bus1Cnt';
   double latitude = 0;
   double longitude = 0;
 

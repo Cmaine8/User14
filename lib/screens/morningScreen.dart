@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mini_project_five/data/global.dart';
 import 'package:mini_project_five/utils/styling.dart';
 import '../data/getData.dart';
 import '../services/getMorningETA.dart';
@@ -43,7 +44,10 @@ class _Morning_ScreenState extends State<Morning_Screen> {
             children: [
               Expanded(
                 child: GestureDetector(
-                  onTap: () => updateSelectedBox(1), // Update CLE
+                  onTap: () {
+                    updateSelectedBox(1);
+                    selectedMRT = 1;
+                  }, // Update CLE
                   child: MRT_Box(box: selectedBox, MRT: 'KAP')
                 ),
               ),
@@ -51,7 +55,10 @@ class _Morning_ScreenState extends State<Morning_Screen> {
               SizedBox(width: 8),
               Expanded(
                 child: GestureDetector(
-                  onTap: () => updateSelectedBox(2), // Update CLE
+                  onTap: () {
+                    updateSelectedBox(2);
+                    selectedMRT = 2;
+                  }, // Update CLE
                   child: MRT_Box(box: selectedBox, MRT: 'CLE')
                 ),
               ),

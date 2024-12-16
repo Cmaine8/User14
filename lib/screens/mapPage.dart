@@ -18,6 +18,8 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import '../services/getLocation.dart';
 import '../services/mqtt.dart';
 import '../utils/loading.dart';
+import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+
 
 class Map_Page extends StatefulWidget {
   const Map_Page({super.key});
@@ -25,6 +27,7 @@ class Map_Page extends StatefulWidget {
   @override
   State<Map_Page> createState() => _Map_PageState();
 }
+
 
 class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   Timer? _timer;
@@ -76,6 +79,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     LatLng(1.3329522845882348, 103.77145520892851), // B44
     LatLng(1.3327697559194817, 103.77323977064727), // B37
     LatLng(1.3325776073001032, 103.77438270405088),
+
     // LatLng(1.3324019134469306, 103.7747380910866), // MAP
     //TODO: something wrong with MAP to HSC
     LatLng(1.3298012679376835, 103.77465550100018), // HSC
@@ -179,7 +183,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     String waypointsStr = waypoints.map((point) => '${point.longitude},${point.latitude}').join(';');
     // TODO: Currently set to morning route, add additional for afternoon route
     var url = Uri.parse(
-        'http://router.project-osrm.org/route/v1/foot/${waypointsStr}?overview=simplified&steps=true&continue_straight=true');
+          'http://router.project-osrm.org/route/v1/foot/${waypointsStr}?overview=simplified&steps=true&continue_straight=true');
     var response = await http.get(url);
 
     if (response.statusCode == 200) {
@@ -272,7 +276,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     )
                     **/
                   ]),
-              MarkerLayer(markers: [
+              MarkerLayer(
+                  markers: [
                 Marker(
                     point: Bus_Location ??
                         LatLng(1.3323127398440282, 103.774728443874),
@@ -293,102 +298,102 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         )
                     )
                 ),
-                // Marker(
-                //   point: ENT,
-                //   child: Icon(
-                //     CupertinoIcons.location_solid,
-                //     color: Colors.red,
-                //     size: (35),
-                //   )
-                // ),
-                // Marker(
-                //     point: CLE,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: KAP,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: B23,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: SPH,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: SIT,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: B44,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: B37,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: MAP,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: HSC,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: LCT,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
-                // Marker(
-                //     point: B72,
-                //     child: Icon(
-                //       CupertinoIcons.location_solid,
-                //       color: Colors.red,
-                //       size: (35),
-                //     )
-                // ),
+                Marker(
+                  point: ENT,
+                  child: Icon(
+                    CupertinoIcons.location_circle_fill,
+                    color: Colors.red,
+                    size: (25),
+                  )
+                ),
+                Marker(
+                    point: CLE,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: KAP,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: B23,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: SPH,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: SIT,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: B44,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: B37,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: MAP,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: HSC,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: LCT,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
+                Marker(
+                    point: B72,
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                      color: Colors.blue[900],
+                      size: (25),
+                    )
+                ),
               ]),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30.0, 10.0, 0),
