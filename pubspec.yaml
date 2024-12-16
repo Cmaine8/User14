@@ -84,10 +84,24 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - images/
+    ### CHELSTER OLD ####
+    - assets/c_certs_old/AmazonRootCA1.pem
+    - assets/c_certs_old/certificate.cert.pem
+    - assets/c_certs_old/c_cert.private.key
+    ### CHELSTER OLD ####
+
+    #### CHELSTER ####
+    - assets/c_certs/AmazonRootCA1.pem
+    - assets/c_certs/certificate.pem.crt
+    - assets/c_certs/private.pem.key
+    #### CHELSTER ####
+
+    ### MR HUI ###
     - assets/cert/AmazonRootCA1.pem
     - assets/cert/SurfacePC.cert.pem
     - assets/cert/SurfacePC.private.key
-  #   - images/a_dot_burr.jpeg
+    ### MR HUI ###
+  #  - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

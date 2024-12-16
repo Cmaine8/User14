@@ -15,14 +15,30 @@ class MQTT_Connect extends StatefulWidget {
   static ValueNotifier<LatLng?> busLocationNotifier = ValueNotifier<LatLng?>(null);
   static ValueNotifier<String?> timeNotifier = ValueNotifier<String?>('');
   static ValueNotifier<double?> speedNotifier = ValueNotifier<double?>(0);
+  static ValueNotifier<String?> stopNotifier = ValueNotifier<String?>('');
+  static ValueNotifier<String?> etaNotifier = ValueNotifier<String?>('');
+  static ValueNotifier<int?> countNotifier = ValueNotifier<int?>(0);
 
   @override
   _MQTT_ConnectState createState() => _MQTT_ConnectState();
 }
 
 class _MQTT_ConnectState extends State<MQTT_Connect> {
-  String uniqueID = 'MyPC_24092024';
-  final MqttServerClient client = mqtt.MqttServerClient('avkbwu51u3x1o-ats.iot.us-east-2.amazonaws.com', '');
+  String uniqueID = 'MyPC_24092024'; //MR HUI
+  //String uniqueID = 'moobus-id'; //chelsters
+
+  // Chelsters
+  final MqttServerClient client = mqtt.MqttServerClient('a2a1gb4ur9migt-ats.iot.ap-southeast-2.amazonaws.com', '');
+  // Chelsters
+
+  // Mr Huis
+  // final MqttServerClient client = mqtt.MqttServerClient('avkbwu51u3x1o-ats.iot.us-east-2.amazonaws.com', '');
+  // Mr Huis
+
+  // Aqils
+  // final MqttServerClient client = mqtt.MqttServerClient('a3czpldm2v11ov-ats.iot.ap-southeast-2.amazonaws.com', ''); //Aqils one
+  // Aqils
+
   String statusText = "Status Text";
   bool isConnected = false;
   String topic_loc = 'Bus1Loc';
@@ -91,9 +107,24 @@ class _MQTT_ConnectState extends State<MQTT_Connect> {
   Future<bool> mqttConnect() async {
     print('MQTT Connect');
     try {
-      ByteData rootCA = await rootBundle.load('assets/cert/AmazonRootCA1.pem');
-      ByteData deviceCert = await rootBundle.load('assets/cert/SurfacePC.cert.pem');
-      ByteData privateKey = await rootBundle.load('assets/cert/SurfacePC.private.key');
+      //  =====MR HUI CERTS=====
+      // ByteData rootCA = await rootBundle.load('assets/cert/AmazonRootCA1.pem');
+      // ByteData deviceCert = await rootBundle.load('assets/cert/SurfacePC.cert.pem');
+      // ByteData privateKey = await rootBundle.load('assets/cert/SurfacePC.private.key');
+      // =====MR HUI CERTS=====
+
+      // =====CHELSTER CERT=====
+      ByteData rootCA = await rootBundle.load('assets/c_certs/AmazonRootCA1.pem');
+      ByteData deviceCert = await rootBundle.load('assets/c_certs/certificate.pem.crt');
+      ByteData privateKey = await rootBundle.load('assets/c_certs/private.pem.key');
+      // =====CHELSTER CERT=====
+
+      // =====CHELSTERS OLD CERTS=====
+      // ByteData rootCA = await rootBundle.load('assets/c_certs_old/AmazonRootCA1.pem');
+      // ByteData deviceCert = await rootBundle.load('assets/c_certs_old/certificate.cert.pem');
+      // ByteData privateKey = await rootBundle.load('assets/c_certs_old/c_cert.private.key');
+      // =====CHELSTERS OLD CERTS=====
+
 
       SecurityContext context = SecurityContext.defaultContext;
       context.setClientAuthoritiesBytes(rootCA.buffer.asUint8List());
@@ -134,6 +165,9 @@ class _MQTT_ConnectState extends State<MQTT_Connect> {
         client.subscribe(topic_loc, MqttQos.atMostOnce);
         client.subscribe(topic_speed, MqttQos.atMostOnce);
         client.subscribe(topic_time, MqttQos.atMostOnce);
+        client.subscribe(topic_stop, MqttQos.atMostOnce);
+        client.subscribe(topic_eta, MqttQos.atMostOnce);
+        client.subscribe(topic_cnt, MqttQos.atMostOnce);
         client.updates!.listen(_onMessage); // Listen for incoming messages
         return true;
       } else {
@@ -163,6 +197,15 @@ class _MQTT_ConnectState extends State<MQTT_Connect> {
       _processTimeMessage(payload);
     } else if (topic1 == topic_speed){
       _processSpeedMessage(payload);
+    }
+    else if (topic1 == topic_stop){
+      _processStopMessage(payload);
+    }
+    else if (topic1 == topic_eta){
+      _processETAMessage(payload);
+    }
+    else if (topic1 == topic_cnt){
+      _processCountMessage(payload);
     }
   }
   void _processTimeMessage(String payload){
@@ -220,6 +263,61 @@ class _MQTT_ConnectState extends State<MQTT_Connect> {
       print("Error processing location message: $e");
     }
   }
+
+  void _processStopMessage(String payload){
+    print('Inside _processStopMessage function');
+
+    try {
+      // Decode the JSON payload
+      Map<String, dynamic> data = jsonDecode(payload);
+      String stop = data['next_bus_stop']; //if chelster change need change
+      print('Printing stop: $stop');
+
+      MQTT_Connect.stopNotifier.value = stop;
+      print('Updating stop: ${MQTT_Connect.stopNotifier.value}');
+    }
+    catch (e){
+      print('Caught error : $e');
+    }
+  }
+
+  void _processETAMessage(String payload){
+    print('Inside _processETAMessage function');
+
+    try {
+      // Decode the JSON payload
+      Map<String, dynamic> data = jsonDecode(payload);
+      String etamin = data['eta_minutes'];
+      String etasec = data['eta_seconds'];
+      String eta = "$etamin, $etasec";
+      print('Printing eta: $eta');
+
+      MQTT_Connect.etaNotifier.value = eta;
+      print('Updating eta: ${MQTT_Connect.etaNotifier.value}');
+    }
+    catch (e){
+      print('Caught error : $e');
+    }
+  }
+
+  void _processCountMessage(String payload){
+    print('Inside _processCountMessage function');
+
+    try {
+      // Decode the JSON payload
+      Map<String, dynamic> data = jsonDecode(payload);
+      int count = int.parse(data['passenger_count']);
+      print('Printing count: $count');
+
+      MQTT_Connect.countNotifier.value = count;
+      print('Updating count: ${MQTT_Connect.countNotifier.value}');
+    }
+    catch (e){
+      print('Caught error : $e');
+    }
+  }
+
+
   void setStatus(String content) {
     setState(() {
       statusText = content;

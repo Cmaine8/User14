@@ -320,6 +320,8 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                           onTap: () {
                             setState((){
                               selectedBusStop = _BusData.BusStop[index+2];
+                              print("selectedbusStop = ${selectedBusStop}");
+                              print("bus index = ${index+2}");
                             });
                             // Handle bus stop selection here
                             Navigator.pop(context); // Close the bottom sheet

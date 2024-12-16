@@ -131,6 +131,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
       setState(() {
         currentLocation = location;
         print('Printing current location: $currentLocation');
+        print("Bus Location: ${Bus_Location}");
       });
     });
     _locationService.initCompass((heading){
