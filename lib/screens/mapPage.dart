@@ -38,23 +38,45 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   int service_time = 9;
   bool ignoring = false;
   bool _isDarkMode = false;
-  LatLng? Bus_Location;
+
+  LatLng? Bus1_Location;
+  String? Bus1_Time;
+  double? Bus1_Speed;
+  String? Bus1_Stop;
+  String? Bus1_ETA;
+  int? Bus1_Count;
+
+  LatLng? Bus2_Location;
+  String? Bus2_Time;
+  double? Bus2_Speed;
+  String? Bus2_Stop;
+  String? Bus2_ETA;
+  int? Bus2_Count;
+
+  LatLng? Bus3_Location;
+  String? Bus3_Time;
+  double? Bus3_Speed;
+  String? Bus3_Stop;
+  String? Bus3_ETA;
+  int? Bus3_Count;
+
   LocationService _locationService = LocationService();
   MQTT_Connect _mqttConnect = MQTT_Connect();
   DateTime now = DateTime.now();
 
-  LatLng ENT = LatLng(1.3327930713846318, 103.77771893587253);
-  LatLng CLE = LatLng(1.3153179405495476, 103.76538319080443);
-  LatLng KAP = LatLng(1.3365156413692888, 103.78278794804254);
-  LatLng B23 = LatLng(1.3339219201675242, 103.77574132061896);
-  LatLng SPH = LatLng(1.3350826567868576, 103.7754223503998);
-  LatLng SIT = LatLng(1.3343686930989717, 103.77435631203087);
+  LatLng ENT = LatLng(1.332959, 103.777306);
+  LatLng CLE = LatLng(1.313434, 103.765811); // change to test out
+  LatLng KAP = LatLng(1.335844, 103.783160);
+  LatLng B23 = LatLng(1.333801, 103.775738);
+  LatLng SPH = LatLng(1.335110, 103.775464);
+  LatLng SIT = LatLng(1.334510, 103.774504);
   LatLng B44 = LatLng(1.3329522845882348, 103.77145520892851);
-  LatLng B37 = LatLng(1.3327697559194817, 103.77323977064727);
-  LatLng MAP = LatLng(1.3324019134469306, 103.7747380910866);
-  LatLng HSC = LatLng(1.3298012679376835, 103.77465550100018);
-  LatLng LCT = LatLng(1.3311533369747423, 103.77490110804173);
-  LatLng B72 = LatLng(1.3312394356934057, 103.77644173403719);
+  LatLng B37 = LatLng(1.332797, 103.773304);
+  LatLng MAP = LatLng(1.332473, 103.774377);
+  LatLng HSC = LatLng(1.330028, 103.774623);
+  LatLng LCT = LatLng(1.330895, 103.774870);
+  LatLng B72 = LatLng(1.3314596165361228, 103.7761976140868);
+  LatLng OPP_KAP = LatLng(1.336274, 103.783146); //OPP KAP
 
   
   List<LatLng> AM_KAP = [
@@ -119,19 +141,140 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     _mqttConnect.createState().initState(); // Assuming you have this function in your MQTT_Connect class.
 
     // Subscribe to the ValueNotifier for bus location updates
-    MQTT_Connect.busLocationNotifier.addListener(() {
+    // BUS 1
+    // BUS 1
+    // BUS 1
+    MQTT_Connect.bus1LocationNotifier.addListener(() {
       setState(() {
-        Bus_Location = MQTT_Connect.busLocationNotifier.value;
+        Bus1_Location = MQTT_Connect.bus1LocationNotifier.value;
       });
     });
+
+    MQTT_Connect.bus1SpeedNotifier.addListener(() {
+      setState(() {
+        Bus1_Speed = MQTT_Connect.bus1SpeedNotifier.value;
+      });
+    });
+    MQTT_Connect.bus1TimeNotifier.addListener(() {
+      setState(() {
+        Bus1_Time = MQTT_Connect.bus1TimeNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus1StopNotifier.addListener(() {
+      setState(() {
+        Bus1_Stop = MQTT_Connect.bus1StopNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus1ETANotifier.addListener(() {
+      setState(() {
+        Bus1_ETA = MQTT_Connect.bus1ETANotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus1CountNotifier.addListener(() {
+      setState(() {
+        Bus1_Count = MQTT_Connect.bus1CountNotifier.value;
+      });
+    });
+    // BUS 1
+    // BUS 1
+    // BUS 1
+
+    // BUS 2
+    // BUS 2
+    // BUS 2
+    MQTT_Connect.bus2LocationNotifier.addListener(() {
+      setState(() {
+        Bus2_Location = MQTT_Connect.bus2LocationNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus2SpeedNotifier.addListener(() {
+      setState(() {
+        Bus2_Speed = MQTT_Connect.bus2SpeedNotifier.value;
+      });
+    });
+    MQTT_Connect.bus2TimeNotifier.addListener(() {
+      setState(() {
+        Bus2_Time = MQTT_Connect.bus2TimeNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus2StopNotifier.addListener(() {
+      setState(() {
+        Bus2_Stop = MQTT_Connect.bus2StopNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus2ETANotifier.addListener(() {
+      setState(() {
+        Bus2_ETA = MQTT_Connect.bus2ETANotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus2CountNotifier.addListener(() {
+      setState(() {
+        Bus2_Count = MQTT_Connect.bus2CountNotifier.value;
+      });
+    });
+    // BUS 2
+    // BUS 2
+    // BUS 2
+
+    // BUS 3
+    // BUS 3
+    // BUS 3
+    MQTT_Connect.bus3LocationNotifier.addListener(() {
+      setState(() {
+        Bus3_Location = MQTT_Connect.bus3LocationNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus3SpeedNotifier.addListener(() {
+      setState(() {
+        Bus3_Speed = MQTT_Connect.bus3SpeedNotifier.value;
+      });
+    });
+    MQTT_Connect.bus3TimeNotifier.addListener(() {
+      setState(() {
+        Bus3_Time = MQTT_Connect.bus3TimeNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus3StopNotifier.addListener(() {
+      setState(() {
+        Bus3_Stop = MQTT_Connect.bus3StopNotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus3ETANotifier.addListener(() {
+      setState(() {
+        Bus3_ETA = MQTT_Connect.bus3ETANotifier.value;
+      });
+    });
+
+    MQTT_Connect.bus3CountNotifier.addListener(() {
+      setState(() {
+        Bus3_Count = MQTT_Connect.bus3CountNotifier.value;
+      });
+    });
+    // BUS 3
+    // BUS 3
+    // BUS 3
   }
+
+
+
+
 
   void _getLocation() {
     _locationService.getCurrentLocation().then((location) {
       setState(() {
         currentLocation = location;
         print('Printing current location: $currentLocation');
-        print("Bus Location: ${Bus_Location}");
+        print("Bus Location: ${Bus1_Location}");
       });
     });
     _locationService.initCompass((heading){
@@ -280,7 +423,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
               MarkerLayer(
                   markers: [
                 Marker(
-                    point: Bus_Location ??
+                    point: Bus1_Location ??
                         LatLng(1.3323127398440282, 103.774728443874),
                     child: Icon(
                       Icons.circle_sharp,
@@ -288,6 +431,24 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                       size: 23,
                     )
                 ),
+                    Marker(
+                        point: Bus2_Location ??
+                            LatLng(1.3323127398440282, 103.774728443874),
+                        child: Icon(
+                          Icons.circle_sharp,
+                          color: Colors.blueAccent,
+                          size: 23,
+                        )
+                    ),
+                    Marker(
+                        point: Bus3_Location ??
+                            LatLng(1.3323127398440282, 103.774728443874),
+                        child: Icon(
+                          Icons.circle_sharp,
+                          color: Colors.blueAccent,
+                          size: 23,
+                        )
+                    ),
                 Marker(
                     point: currentLocation!,
                     child: CustomPaint(
@@ -323,6 +484,14 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                       size: (25),
                     )
                 ),
+                    Marker(
+                        point: OPP_KAP,
+                        child: Icon(
+                          CupertinoIcons.location_circle_fill,
+                          color: Colors.blue[900],
+                          size: (25),
+                        )
+                    ),
                 Marker(
                     point: B23,
                     child: Icon(
@@ -482,6 +651,50 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         SizedBox(height: 16),
                         News_Announcement_Widget(isDarkMode: _isDarkMode),
                         SizedBox(height: 20),
+                        // BUS 1
+                        Row(
+                          children: [
+                            Column(
+                              children: [
+                                Text('Bus1_Speed = ${Bus1_Speed}'),
+                                Text('Bus1_Time = ${Bus1_Time}'),
+                                Text('Bus1_Stop = ${Bus1_Stop}'),
+                                Text('Bus1_ETA = ${Bus1_ETA}'),
+                                Text('Bus1_Count = ${Bus1_Count}'),
+                              ],
+                            ),
+                            // BUS 1
+                            SizedBox(width: 20,),
+
+                            // BUS 2
+                            Column(
+                              children: [
+                                Text('Bus2_Speed = ${Bus2_Speed}'),
+                                Text('Bus2_Time = ${Bus2_Time}'),
+                                Text('Bus2_Stop = ${Bus2_Stop}'),
+                                Text('Bus2_ETA = ${Bus2_ETA}'),
+                                Text('Bus2_Count = ${Bus2_Count}'),
+                              ],
+                            ),
+                            // BUS 2
+                            SizedBox(width: 20,),
+
+                            // BUS 2
+                            SizedBox(width: 20,),
+
+                            // BUS 3
+                            Column(
+                              children: [
+                                Text('Bus3_Speed = ${Bus3_Speed}'),
+                                Text('Bus3_Time = ${Bus3_Time}'),
+                                Text('Bus3_Stop = ${Bus3_Stop}'),
+                                Text('Bus3_ETA = ${Bus3_ETA}'),
+                                Text('Bus3_Count = ${Bus3_Count}'),
+                              ],
+                            ),
+                          ],
+                        ),
+                        // BUS 3
                       ],
                     )
                 ),
