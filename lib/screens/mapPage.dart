@@ -10,6 +10,7 @@ import 'package:mini_project_five/screens/info.dart';
 import 'package:mini_project_five/screens/morningScreen.dart';
 import 'package:mini_project_five/screens/newsAnnouncement.dart';
 import 'package:mini_project_five/screens/settings.dart';
+import 'package:mini_project_five/utils/dynamicmarkers.dart';
 import 'dart:async';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
@@ -81,20 +82,21 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   
   List<LatLng> AM_KAP = [
     // TODO: currently set to OPPKAP instead of KAP
-    LatLng(1.3365156413692888, 103.78278794804254), // KAP
+    // LatLng(1.3365156413692888, 103.78278794804254), // KAP
+    LatLng(1.335844, 103.783160),
     LatLng(1.326394, 103.775705), // UTURN
-    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3329143792222058, 103.77742909276205), // ENT
     LatLng(1.3324019134469306, 103.7747380910866), // MAP
   ];
 
   List<LatLng> AM_CLE = [
     LatLng(1.3153179405495476, 103.76538319080443), // CLE
-    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3329143792222058, 103.77742909276205), // ENT
     LatLng(1.3324019134469306, 103.7747380910866), // MAP
   ];
 
   List<LatLng> PM_KAP = [
-    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3329143792222058, 103.77742909276205), // ENT
     LatLng(1.3339219201675242, 103.77574132061896), // B23
     LatLng(1.3350826567868576, 103.7754223503998), // SPH
     LatLng(1.3343686930989717, 103.77435631203087), // SIT
@@ -104,7 +106,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
 
     // LatLng(1.3324019134469306, 103.7747380910866), // MAP
     //TODO: something wrong with MAP to HSC
-    LatLng(1.3298012679376835, 103.77465550100018), // HSC
+    LatLng(1.330028, 103.774623), //HSC
     LatLng(1.3307778258080973, 103.77543148160284), //between hsc and lct
     LatLng(1.3311533369747423, 103.77490110804173), // LCT
     LatLng(1.3312394356934057, 103.77644173403719), // B72
@@ -112,7 +114,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   ];
 
   List<LatLng> PM_CLE = [
-    LatLng(1.3327930713846318, 103.77771893587253), // ENT
+    LatLng(1.3329143792222058, 103.77742909276205), // ENT
     LatLng(1.3339219201675242, 103.77574132061896), // B23
     LatLng(1.3350826567868576, 103.7754223503998), // SPH
     LatLng(1.3343686930989717, 103.77435631203087), // SIT
@@ -121,7 +123,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     LatLng(1.3325776073001032, 103.77438270405088),
     // LatLng(1.3324019134469306, 103.7747380910866), // MAP
     //TODO: something wrong with MAP to HSC
-    LatLng(1.3298012679376835, 103.77465550100018), // HSC
+    LatLng(1.330028, 103.774623), //HSC
     LatLng(1.3307778258080973, 103.77543148160284), //between hsc and lct
     LatLng(1.3311533369747423, 103.77490110804173), // LCT
     LatLng(1.3312394356934057, 103.77644173403719), // B72
@@ -269,14 +271,41 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
 
 
 
+  // void _getLocation() {
+  //   _locationService.getCurrentLocation().then((location) {
+  //     setState(() {
+  //       currentLocation = location;
+  //       print('Printing current location: $currentLocation');
+  //       print("Bus Location: ${Bus1_Location}");
+  //     });
+  //   });
+  //   _locationService.initCompass((heading){
+  //     setState(() {
+  //       _heading = heading;
+  //     });
+  //   });
+  // }
+
   void _getLocation() {
+    // Initial location fetch
     _locationService.getCurrentLocation().then((location) {
       setState(() {
         currentLocation = location;
         print('Printing current location: $currentLocation');
-        print("Bus Location: ${Bus1_Location}");
       });
     });
+
+    // Set up periodic location updates
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      _locationService.getCurrentLocation().then((location) {
+        setState(() {
+          currentLocation = location;
+          print('Updated location: $currentLocation');
+        });
+      });
+    });
+
+    // Compass heading updates
     _locationService.initCompass((heading){
       setState(() {
         _heading = heading;
@@ -408,46 +437,90 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         patternFit: PatternFit.scaleUp,
                       ),
                     ),
-                    /**
-                    Polyline(
-                      points: ENT_TO_B23,
-                      color: Colors.blue,
-                      strokeWidth: 5,
-                      pattern: StrokePattern.dashed(
-                          segments: [1,7],
-                        patternFit: PatternFit.scaleUp ,
-                      )
-                    )
-                    **/
                   ]),
               MarkerLayer(
                   markers: [
-                Marker(
-                    point: Bus1_Location ??
-                        LatLng(1.3323127398440282, 103.774728443874),
-                    child: Icon(
-                      Icons.circle_sharp,
-                      color: Colors.blueAccent,
-                      size: 23,
-                    )
-                ),
+                    Marker(
+                        point: Bus1_Location ??
+                            LatLng(1.3323127398440282, 103.774728443874),
+                        child: Container(
+                          width: 50,
+                          height: 60,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Bus1',
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.directions_bus,
+                                // Icons.circle_sharp,
+                                color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                size: 17,
+                              ),
+                            ],
+                          ),
+                        )
+
+                    ),
                     Marker(
                         point: Bus2_Location ??
                             LatLng(1.3323127398440282, 103.774728443874),
-                        child: Icon(
-                          Icons.circle_sharp,
-                          color: Colors.blueAccent,
-                          size: 23,
+                        child: Container(
+                          width: 50,
+                          height: 60,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Bus2',
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.directions_bus,
+                                // Icons.circle_sharp,
+                                color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                size: 17,
+                              ),
+                            ],
+                          ),
                         )
+
                     ),
                     Marker(
                         point: Bus3_Location ??
                             LatLng(1.3323127398440282, 103.774728443874),
-                        child: Icon(
-                          Icons.circle_sharp,
-                          color: Colors.blueAccent,
-                          size: 23,
+                        child: Container(
+                          width: 50,
+                          height: 60,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Bus3',
+                                style: TextStyle(
+                                    fontSize: 8,
+                                    color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Icon(
+                                Icons.directions_bus,
+                                // Icons.circle_sharp,
+                                // color: Colors.blue[900],
+                                color: _isDarkMode ? Colors.lightBlueAccent : Colors.blue[900],
+                                size: 17,
+                              ),
+                            ],
+                          ),
                         )
+
                     ),
                 Marker(
                     point: currentLocation!,
@@ -462,11 +535,35 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                 ),
                 Marker(
                   point: ENT,
-                  child: Icon(
-                    CupertinoIcons.location_circle_fill,
-                    color: Colors.red,
-                    size: (25),
-                  )
+                  // child: Icon(
+                  //   CupertinoIcons.location_circle_fill,
+                  //   color: Colors.red,
+                  //   size: (25),
+                  // ),
+                  child: GestureDetector(
+                    onTap: (){
+                      showDialog(context: context,
+                          builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('ENT Bus Stop'),
+                                content: Text('Entrance'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                          }
+                      );
+                    },
+                    child: Icon(
+                      CupertinoIcons.location_circle_fill,
+                        color: Colors.red,
+                        size: (25),
+                    ),
+                  ),
                 ),
                 Marker(
                     point: CLE,
