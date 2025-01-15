@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "BookingDetails",
+  "projectName": "MooRide20Data",
   "version": "3.1",
   "frontend": "flutter",
   "flutter": {

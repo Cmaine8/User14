@@ -8,6 +8,7 @@ import 'package:amplify_datastore/amplify_datastore.dart';
 import 'package:amplify_flutter/amplify_flutter.dart';
 import 'package:amplify_api_dart/amplify_api_dart.dart';
 import 'package:mini_project_five/utils/styling.dart';
+import 'package:mini_project_five/data/global.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/getData.dart';
@@ -42,7 +43,6 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
   SharedPreferenceService prefsService = SharedPreferenceService();
   Future<Map<String, dynamic>?>? futureBookingData;
   bool _showBookingService = false;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -321,7 +321,8 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                             setState((){
                               selectedBusStop = _BusData.BusStop[index+2];
                               print("selectedbusStop = ${selectedBusStop}");
-                              print("bus index = ${index+2}");
+                              busIndex = index+2;
+                              print("bus index = {busIndex}");
                             });
                             // Handle bus stop selection here
                             Navigator.pop(context); // Close the bottom sheet

@@ -10,7 +10,7 @@ import 'package:mini_project_five/screens/info.dart';
 import 'package:mini_project_five/screens/morningScreen.dart';
 import 'package:mini_project_five/screens/newsAnnouncement.dart';
 import 'package:mini_project_five/screens/settings.dart';
-import 'package:mini_project_five/utils/dynamicmarkers.dart';
+import 'package:mini_project_five/utils/markerColour.dart';
 import 'dart:async';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:http/http.dart' as http;
@@ -392,6 +392,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     // Widget displayPage = Morning_Screen(updateSelectedBox: updateSelectedBox);
+    // Widget displayPage = Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode);
     Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
      return Scaffold(
       body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
@@ -560,7 +561,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     },
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                        color: Colors.red,
+                        // color: Colors.red,
+                        color : getMarkerColor('ENT', busIndex),
                         size: (25),
                     ),
                   ),
@@ -593,7 +595,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: B23,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('B23', busIndex),
                       size: (25),
                     )
                 ),
@@ -601,7 +604,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: SPH,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('SPH', busIndex),
                       size: (25),
                     )
                 ),
@@ -609,7 +613,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: SIT,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('SIT', busIndex),
                       size: (25),
                     )
                 ),
@@ -617,7 +622,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: B44,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('B44', busIndex),
                       size: (25),
                     )
                 ),
@@ -625,7 +631,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: B37,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('B37', busIndex),
                       size: (25),
                     )
                 ),
@@ -633,7 +640,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: MAP,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('MAP', busIndex),
                       size: (25),
                     )
                 ),
@@ -641,7 +649,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: HSC,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('HSC', busIndex),
                       size: (25),
                     )
                 ),
@@ -649,7 +658,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: LCT,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('LCT', busIndex),
                       size: (25),
                     )
                 ),
@@ -657,7 +667,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     point: B72,
                     child: Icon(
                       CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
+                      // color: Colors.blue[900],
+                      color : getMarkerColor('B72', busIndex),
                       size: (25),
                     )
                 ),
@@ -749,48 +760,48 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         News_Announcement_Widget(isDarkMode: _isDarkMode),
                         SizedBox(height: 20),
                         // BUS 1
-                        Row(
-                          children: [
-                            Column(
-                              children: [
-                                Text('Bus1_Speed = ${Bus1_Speed}'),
-                                Text('Bus1_Time = ${Bus1_Time}'),
-                                Text('Bus1_Stop = ${Bus1_Stop}'),
-                                Text('Bus1_ETA = ${Bus1_ETA}'),
-                                Text('Bus1_Count = ${Bus1_Count}'),
-                              ],
-                            ),
-                            // BUS 1
-                            SizedBox(width: 20,),
-
-                            // BUS 2
-                            Column(
-                              children: [
-                                Text('Bus2_Speed = ${Bus2_Speed}'),
-                                Text('Bus2_Time = ${Bus2_Time}'),
-                                Text('Bus2_Stop = ${Bus2_Stop}'),
-                                Text('Bus2_ETA = ${Bus2_ETA}'),
-                                Text('Bus2_Count = ${Bus2_Count}'),
-                              ],
-                            ),
-                            // BUS 2
-                            SizedBox(width: 20,),
-
-                            // BUS 2
-                            SizedBox(width: 20,),
-
-                            // BUS 3
-                            Column(
-                              children: [
-                                Text('Bus3_Speed = ${Bus3_Speed}'),
-                                Text('Bus3_Time = ${Bus3_Time}'),
-                                Text('Bus3_Stop = ${Bus3_Stop}'),
-                                Text('Bus3_ETA = ${Bus3_ETA}'),
-                                Text('Bus3_Count = ${Bus3_Count}'),
-                              ],
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Column(
+                        //       children: [
+                        //         Text('Bus1_Speed = ${Bus1_Speed}'),
+                        //         Text('Bus1_Time = ${Bus1_Time}'),
+                        //         Text('Bus1_Stop = ${Bus1_Stop}'),
+                        //         Text('Bus1_ETA = ${Bus1_ETA}'),
+                        //         Text('Bus1_Count = ${Bus1_Count}'),
+                        //       ],
+                        //     ),
+                        //     // BUS 1
+                        //     SizedBox(width: 20,),
+                        //
+                        //     // BUS 2
+                        //     Column(
+                        //       children: [
+                        //         Text('Bus2_Speed = ${Bus2_Speed}'),
+                        //         Text('Bus2_Time = ${Bus2_Time}'),
+                        //         Text('Bus2_Stop = ${Bus2_Stop}'),
+                        //         Text('Bus2_ETA = ${Bus2_ETA}'),
+                        //         Text('Bus2_Count = ${Bus2_Count}'),
+                        //       ],
+                        //     ),
+                        //     // BUS 2
+                        //     SizedBox(width: 20,),
+                        //
+                        //     // BUS 2
+                        //     SizedBox(width: 20,),
+                        //
+                        //     // BUS 3
+                        //     Column(
+                        //       children: [
+                        //         Text('Bus3_Speed = ${Bus3_Speed}'),
+                        //         Text('Bus3_Time = ${Bus3_Time}'),
+                        //         Text('Bus3_Stop = ${Bus3_Stop}'),
+                        //         Text('Bus3_ETA = ${Bus3_ETA}'),
+                        //         Text('Bus3_Count = ${Bus3_Count}'),
+                        //       ],
+                        //     ),
+                        //   ],
+                        // ),
                         // BUS 3
                       ],
                     )

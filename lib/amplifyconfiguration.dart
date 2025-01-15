@@ -4,12 +4,12 @@ const amplifyconfig = '''{
     "api": {
         "plugins": {
             "awsAPIPlugin": {
-                "BookingDetails": {
+                "MooRide20Data": {
                     "endpointType": "GraphQL",
-                    "endpoint": "https://jyocyco57rdyjijrb2y7ny5urq.appsync-api.ap-southeast-2.amazonaws.com/graphql",
+                    "endpoint": "https://mgrhtiu6obbq5idvuf2xheiy3a.appsync-api.ap-southeast-2.amazonaws.com/graphql",
                     "region": "ap-southeast-2",
                     "authorizationType": "API_KEY",
-                    "apiKey": "da2-6dm67ntimrdivpzqak5j3sfmqu"
+                    "apiKey": "da2-kdoyqvtr6bf6bkyjlzqqgctc2m"
                 }
             }
         }

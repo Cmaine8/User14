@@ -1,6 +1,6 @@
 {
   "api": {
-    "BookingDetails": {
+    "MooRide20Data": {
       "dependsOn": [],
       "output": {
         "authConfig": {
