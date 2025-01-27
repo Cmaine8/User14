@@ -18,7 +18,7 @@ class LocationService{
       );
       return LatLng(position.latitude, position.longitude);
     } catch(e){
-      print('Eroor getting current location: $e');
+      print('Error getting current location: $e');
       return null;
     }
   }

@@ -395,13 +395,17 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     // Widget displayPage = Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode);
     Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
      return Scaffold(
-      body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
+      // body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
+       body: Stack(
         children: [
           FlutterMap(
             options: MapOptions(
-              initialCenter: LatLng(currentLocation!.latitude, currentLocation!.longitude),
+              //initialCenter: LatLng(currentLocation!.latitude, currentLocation!.longitude),
+              initialCenter: currentLocation == null? LatLng(1.3331191965635956, 103.7765424614437) :
+              LatLng(currentLocation!.latitude, currentLocation!.longitude),
               initialZoom: 18,
-              initialRotation: _heading,
+              // initialRotation: _heading,
+              initialRotation: 0,
               interactionOptions: const InteractionOptions(
                   flags: ~InteractiveFlag.doubleTapZoom),
             ),
@@ -441,6 +445,34 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                   ]),
               MarkerLayer(
                   markers: [
+                    Marker(
+                      point: ENT,
+                      child: GestureDetector(
+                        onTap: (){
+                          showDialog(context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('ENT Bus Stop'),
+                                  content: Text('Entrance'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('Close'))
+                                  ],
+                                );
+                              }
+                          );
+                        },
+                        child: Icon(
+                          CupertinoIcons.location_circle_fill,
+                          // color: Colors.red,
+                          color : getMarkerColor('ENT', busIndex),
+                          size: (25),
+                        ),
+                      ),
+                    ),
                     Marker(
                         point: Bus1_Location ??
                             LatLng(1.3323127398440282, 103.774728443874),
@@ -523,6 +555,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         )
 
                     ),
+                if (currentLocation != null)
                 Marker(
                     point: currentLocation!,
                     child: CustomPaint(
@@ -533,39 +566,6 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                           arcStartAngle: 0,
                         )
                     )
-                ),
-                Marker(
-                  point: ENT,
-                  // child: Icon(
-                  //   CupertinoIcons.location_circle_fill,
-                  //   color: Colors.red,
-                  //   size: (25),
-                  // ),
-                  child: GestureDetector(
-                    onTap: (){
-                      showDialog(context: context,
-                          builder: (BuildContext context) {
-                              return AlertDialog(
-                                title: const Text('ENT Bus Stop'),
-                                content: Text('Entrance'),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Close'))
-                                ],
-                              );
-                          }
-                      );
-                    },
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                        // color: Colors.red,
-                        color : getMarkerColor('ENT', busIndex),
-                        size: (25),
-                    ),
-                  ),
                 ),
                 Marker(
                     point: CLE,
