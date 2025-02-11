@@ -39,9 +39,9 @@ class BusData {
   Future<void> NPNews() async{
     try {
       Response response = await get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/news?info=News'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/news?info=News'));
       dynamic data = jsonDecode(response.body);
-      String newsContent = data['news'];
+      String newsContent = data['news']['S'];
       News = newsContent;
     }
     catch (e) {
