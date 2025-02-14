@@ -7,22 +7,21 @@ Color getMarkerColor(String markerName, int currentValue) {
     return Colors.red;
   } else if (markerName == "B23" && currentValue == 3) {
     return Colors.red;
-  } else if (markerName == "SPH" && currentValue == 1) {
-    // SPH NOT A BUS STOP ? change later
+  } else if (markerName == "SPH" && currentValue == 4) {
     return Colors.red;
-  } else if (markerName == "SIT" && currentValue == 4) {
+  } else if (markerName == "SIT" && currentValue == 5) {
     return Colors.red;
-  } else if (markerName == "B44" && currentValue == 5) {
+  } else if (markerName == "B44" && currentValue == 6) {
     return Colors.red;
-  } else if (markerName == "B37" && currentValue == 6) {
+  } else if (markerName == "B37" && currentValue == 7) {
     return Colors.red;
-  } else if (markerName == "MAP" && currentValue == 7) {
+  } else if (markerName == "MAP" && currentValue == 8) {
     return Colors.red;
-  } else if (markerName == "HSC" && currentValue == 8) {
+  } else if (markerName == "HSC" && currentValue == 9) {
     return Colors.red;
-  } else if (markerName == "LCT" && currentValue == 9) {
+  } else if (markerName == "LCT" && currentValue == 10) {
     return Colors.red;
-  } else if (markerName == "B72" && currentValue == 10) {
+  } else if (markerName == "B72" && currentValue == 11) {
     return Colors.red;
   }
   // Default color for all other cases

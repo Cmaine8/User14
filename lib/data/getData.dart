@@ -19,7 +19,7 @@ class BusData {
   Future<void> BusStops() async{
     try {
       Response response = await get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/busstop?info=BusStops'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/busstop?info=BusStops'));
       dynamic data = jsonDecode(response.body);
 
 
@@ -41,7 +41,7 @@ class BusData {
       Response response = await get(Uri.parse(
           'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/news?info=News'));
       dynamic data = jsonDecode(response.body);
-      String newsContent = data['news']['S'];
+      String newsContent = data['news'];
       News = newsContent;
     }
     catch (e) {
@@ -52,7 +52,7 @@ class BusData {
   Future<void> KAP_AT() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=KAP_MorningBus'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=KAP_MorningBus'));
       dynamic data = jsonDecode(response.body);
 
       List<dynamic> times = data['times'];
@@ -71,7 +71,7 @@ class BusData {
   Future<void> CLE_AT() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=CLE_MorningBus'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=CLE_MorningBus'));
       dynamic data = jsonDecode(response.body);
 
       List<dynamic> times = data['times'];
@@ -90,7 +90,7 @@ class BusData {
   Future<void> KAP_DT() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=KAP_AfternoonBus'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=KAP_AfternoonBus'));
       dynamic data = jsonDecode(response.body);
 
       List<dynamic> times = data['times'];
@@ -109,7 +109,7 @@ class BusData {
   Future<void> CLE_DT() async {
     try {
       http.Response response = await http.get(Uri.parse(
-          'https://lrjwl7ccg1.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=CLE_AfternoonBus'));
+          'https://6f11dyznc2.execute-api.ap-southeast-2.amazonaws.com/prod/timing?info=CLE_AfternoonBus'));
       dynamic data = jsonDecode(response.body);
 
       List<dynamic> times = data['times'];
