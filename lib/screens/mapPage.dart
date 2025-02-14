@@ -452,8 +452,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                           showDialog(context: context,
                               builder: (BuildContext context) {
                                 return AlertDialog(
-                                  title: const Text('ENT Bus Stop'),
-                                  content: Text('Entrance'),
+                                  title: const Text('ENT'),
+                                  content: Text('Entrance Bus Stop'),
                                   actions: [
                                     TextButton(
                                         onPressed: () {
@@ -569,19 +569,60 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                 ),
                 Marker(
                     point: CLE,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('CLE'),
+                                content: Text('Clementi MRT Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : _isDarkMode ? Colors.blue[900] : Colors.red,
+                        size: (25),
+                      ),
+                    ),
                 ),
+                    // color : _isDarkMode ? Colors.blue[900] : Colors.red,
                 Marker(
                     point: KAP,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      color: Colors.blue[900],
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('KAP'),
+                                content: Text('King Albert Park MRT Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : _isDarkMode ? Colors.blue[900] : Colors.red,
+                        size: (25),
+                      ),
+                    ),
                 ),
                     Marker(
                         point: OPP_KAP,
@@ -593,84 +634,255 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                     ),
                 Marker(
                     point: B23,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('B23', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('B23'),
+                                content: Text('Block 23 Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('B23', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: SPH,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('SPH', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('SPH'),
+                                content: Text('Sports Hall Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('SPH', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: SIT,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('SIT', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('SIT'),
+                                content: Text('Singapore Institute of Technology Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('SIT', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: B44,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('B44', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('B44'),
+                                content: Text('Block 44 Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('B44', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: B37,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('B37', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('B37'),
+                                content: Text('Block 37 Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('B37', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: MAP,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('MAP', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('MAP'),
+                                content: Text('Makan Place Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('MAP', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: HSC,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('HSC', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('HSC'),
+                                content: Text('School of Health Sciences Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('HSC', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: LCT,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('LCT', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('LCT'),
+                                content: Text('School of Life Sciences & Technology Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('LCT', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
                 Marker(
                     point: B72,
-                    child: Icon(
-                      CupertinoIcons.location_circle_fill,
-                      // color: Colors.blue[900],
-                      color : getMarkerColor('B72', busIndex),
-                      size: (25),
-                    )
+                    child: GestureDetector(
+                      onTap: (){
+                        showDialog(context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: const Text('B72'),
+                                content: Text('Block 72 Bus Stop'),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Close'))
+                                ],
+                              );
+                            }
+                        );
+                      },
+                      child: Icon(
+                        CupertinoIcons.location_circle_fill,
+                        // color: Colors.red,
+                        color : getMarkerColor('B72', busIndex),
+                        size: (25),
+                      ),
+                    ),
                 ),
               ]),
               Padding(
@@ -759,50 +971,6 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         SizedBox(height: 16),
                         News_Announcement_Widget(isDarkMode: _isDarkMode),
                         SizedBox(height: 20),
-                        // BUS 1
-                        // Row(
-                        //   children: [
-                        //     Column(
-                        //       children: [
-                        //         Text('Bus1_Speed = ${Bus1_Speed}'),
-                        //         Text('Bus1_Time = ${Bus1_Time}'),
-                        //         Text('Bus1_Stop = ${Bus1_Stop}'),
-                        //         Text('Bus1_ETA = ${Bus1_ETA}'),
-                        //         Text('Bus1_Count = ${Bus1_Count}'),
-                        //       ],
-                        //     ),
-                        //     // BUS 1
-                        //     SizedBox(width: 20,),
-                        //
-                        //     // BUS 2
-                        //     Column(
-                        //       children: [
-                        //         Text('Bus2_Speed = ${Bus2_Speed}'),
-                        //         Text('Bus2_Time = ${Bus2_Time}'),
-                        //         Text('Bus2_Stop = ${Bus2_Stop}'),
-                        //         Text('Bus2_ETA = ${Bus2_ETA}'),
-                        //         Text('Bus2_Count = ${Bus2_Count}'),
-                        //       ],
-                        //     ),
-                        //     // BUS 2
-                        //     SizedBox(width: 20,),
-                        //
-                        //     // BUS 2
-                        //     SizedBox(width: 20,),
-                        //
-                        //     // BUS 3
-                        //     Column(
-                        //       children: [
-                        //         Text('Bus3_Speed = ${Bus3_Speed}'),
-                        //         Text('Bus3_Time = ${Bus3_Time}'),
-                        //         Text('Bus3_Stop = ${Bus3_Stop}'),
-                        //         Text('Bus3_ETA = ${Bus3_ETA}'),
-                        //         Text('Bus3_Count = ${Bus3_Count}'),
-                        //       ],
-                        //     ),
-                        //   ],
-                        // ),
-                        // BUS 3
                       ],
                     )
                 ),
