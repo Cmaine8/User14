@@ -41,7 +41,7 @@ class _News_Announcement_WidgetState extends State<News_Announcement_Widget> {
                     Icon(Icons.announcement, color: Colors.orange),
                     SizedBox(width: 5.0),
                     Text(
-                      '${_NewsContent}',
+                      'Announcements',
                       style: TextStyle(
                         fontSize: 23,
                         fontWeight: FontWeight.bold,
