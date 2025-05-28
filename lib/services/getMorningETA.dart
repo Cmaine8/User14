@@ -35,55 +35,37 @@ class Calculate_MorningBus {
     final _timeService = TimeService();
     DateTime currentTime = _timeService.time_now ?? DateTime.now();
     currentTime = DateTime(currentTime.year, currentTime.month, currentTime.day, currentTime.hour, currentTime.minute);
-    print('Current Time: $currentTime');
-    print('Bus Timing List: $busArrivalTimes');
 
     List<DateTime> upcomingArrivalTimes = busArrivalTimes.where((time) => time.isAfter(currentTime)).toList();
-    print('Upcoming Arrival Times: $upcomingArrivalTimes');
-    print(upcomingArrivalTimes.isEmpty);
-
 
     if (upcomingArrivalTimes.isEmpty) {
-      if (selectedMRT == 1) {
-        return Column(
-          children: [
-            buildMorningETADisplay('No upcoming buses available.'),
-            buildMorningETADisplay('No upcoming buses available'),
-          ],
-        );
-      } else if (selectedMRT == 2) {
-        return Column(
-          children: [
-            buildMorningETADisplay('No upcoming buses available.'),
-          ],
-        );
-      }
-    } else {
-      String upcomingBus = upcomingArrivalTimes[0].difference(currentTime).inMinutes.toString();
-      String nextUpcomingBus = upcomingArrivalTimes.length > 1
-          ? upcomingArrivalTimes[1].difference(currentTime).inMinutes.toString()
-          : ' - ';
-      if (selectedMRT == 1) {
-        return Column(
-          children: [
-            buildMorningETADisplay('Upcoming bus:', ETA: upcomingBus),
-            buildMorningETADisplay('Next bus:', ETA: nextUpcomingBus),
-          ],
-        );
-      }
-      else if (selectedMRT == 2 ) {
-        return Column(
+      return SizedBox.shrink(); // ✅ hides output if nothing upcoming
+    }
+
+    String upcomingBus = upcomingArrivalTimes[0].difference(currentTime).inMinutes.toString();
+    String nextUpcomingBus = upcomingArrivalTimes.length > 1
+        ? upcomingArrivalTimes[1].difference(currentTime).inMinutes.toString()
+        : ' - ';
+
+    if (selectedMRT == 1) {
+      return Column(
+        children: [
+          buildMorningETADisplay('Upcoming bus:', ETA: upcomingBus),
+          buildMorningETADisplay('Next bus:', ETA: nextUpcomingBus),
+        ],
+      );
+    } else if (selectedMRT == 2) {
+      return Column(
         children: [
           buildMorningETADisplay('Upcoming bus:', ETA: upcomingBus),
         ],
-        );
-      }
+      );
     }
-    return Column();
+
+    return SizedBox.shrink();
   }
 }
 
-// Widget to retrieve and display bus times
 class GetMorningETA extends StatelessWidget {
   final List<DateTime> busArrivalTimes;
 

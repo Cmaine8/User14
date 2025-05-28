@@ -20,10 +20,11 @@ import '../services/getLocation.dart';
 import '../services/mqtt.dart';
 import '../utils/loading.dart';
 import 'package:flutter_map_marker_popup/flutter_map_marker_popup.dart';
+import 'package:mini_project_five/data/getData.dart';
 
 
 class Map_Page extends StatefulWidget {
-  const Map_Page({super.key});
+   const Map_Page({super.key});
 
   @override
   State<Map_Page> createState() => _Map_PageState();
@@ -39,6 +40,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   int service_time = 9;
   bool ignoring = false;
   bool _isDarkMode = false;
+  bool _showAnnouncement = true;
+
 
   LatLng? Bus1_Location;
   String? Bus1_Time;
@@ -79,7 +82,21 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   LatLng B72 = LatLng(1.3314596165361228, 103.7761976140868);
   LatLng OPP_KAP = LatLng(1.336274, 103.783146); //OPP KAP
 
-  
+
+  final Map<String, LatLng> busStops = {
+    'ENT': LatLng(1.332959, 103.777306),
+    'B23': LatLng(1.333801, 103.775738),
+    'SPH': LatLng(1.335110, 103.775464),
+    'SIT': LatLng(1.334510, 103.774504),
+    'B44': LatLng(1.3329522845882348, 103.77145520892851),
+    'B37': LatLng(1.332797, 103.773304),
+    'MAP': LatLng(1.332473, 103.774377),
+    'HSC': LatLng(1.330028, 103.774623),
+    'LCT': LatLng(1.330895, 103.774870),
+    'B72': LatLng(1.3314596165361228, 103.7761976140868),
+  };
+
+
   List<LatLng> AM_KAP = [
     // TODO: currently set to OPPKAP instead of KAP
     // LatLng(1.3365156413692888, 103.78278794804254), // KAP
@@ -141,6 +158,15 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
     _getLocation();
     _mqttConnect = MQTT_Connect();
     _mqttConnect.createState().initState(); // Assuming you have this function in your MQTT_Connect class.
+
+    Future.delayed(Duration(seconds: 10), () {
+      if (mounted) {
+        setState(() {
+          _showAnnouncement = false;
+        });
+      }
+    });
+
 
     // Subscribe to the ValueNotifier for bus location updates
     // BUS 1
@@ -286,6 +312,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   //   });
   // }
 
+
   void _getLocation() {
     // Initial location fetch
     _locationService.getCurrentLocation().then((location) {
@@ -301,6 +328,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
         setState(() {
           currentLocation = location;
           print('Updated location: $currentLocation');
+
         });
       });
     });
@@ -393,7 +421,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     // Widget displayPage = Morning_Screen(updateSelectedBox: updateSelectedBox);
     // Widget displayPage = Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode);
-    Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
+    Widget displayPage = now.hour > startAfternoonService ? Afternoon_Screen(updateSelectedBox: updateSelectedBox, isDarkMode: _isDarkMode, currentLocation: currentLocation,) : Morning_Screen(updateSelectedBox: updateSelectedBox);
      return Scaffold(
       // body: currentLocation == null? LoadingScreen(isDarkMode: _isDarkMode) : Stack(
        body: Stack(
@@ -884,7 +912,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                       ),
                     ),
                 ),
-              ]),
+                  ]),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 30.0, 10.0, 0),
                 child: CircularMenu(
@@ -942,6 +970,50 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
               ),
             ],
           ),
+          if (_showAnnouncement)
+            Positioned(
+              top: 45,
+              left: 90,
+              right: 90,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewsAnnouncement(isDarkMode: _isDarkMode),
+                    ),
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black26,
+                        blurRadius: 6,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.announcement, color: Colors.orange, size: 20),
+                      SizedBox(width: 6),
+                      Expanded(
+                        child: Text(
+                          BusData().News,
+                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           SlidingUpPanel(
             onPanelOpened: _onPanelOpened,
             onPanelClosed: _onPanelClosed,
@@ -969,8 +1041,8 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         ),
                         displayPage,
                         SizedBox(height: 16),
-                        News_Announcement_Widget(isDarkMode: _isDarkMode),
-                        SizedBox(height: 20),
+                        //News_Announcement_Widget(isDarkMode: _isDarkMode),
+                        //SizedBox(height: 20),
                       ],
                     )
                 ),

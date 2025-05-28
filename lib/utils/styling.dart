@@ -28,8 +28,9 @@ class DrawLine extends StatelessWidget {
 class MRT_Box extends StatelessWidget {
   final int box;
   final String MRT;
+  final String label; // ✅ new
 
-  const MRT_Box({required this.box, required this.MRT});
+  const MRT_Box({required this.box, required this.MRT,required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +46,7 @@ class MRT_Box extends StatelessWidget {
           color: box == chosen ? Colors.blueAccent : Colors.grey,
           child: Center(
             child: Text(
-              MRT,
+              label,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../data/getData.dart';
 
+
 class Information_Page extends StatefulWidget {
   final bool isDarkMode;
 
@@ -42,38 +43,77 @@ class _Information_PageState extends State<Information_Page> {
         ),
       ),
       body: Container(
-        color: widget.isDarkMode ? Colors.lightBlue[900]: Colors.white,
+        color: widget.isDarkMode ? Colors.lightBlue[900] : Colors.white,
         child: _isLoading
             ? Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(13, 15, 15, 8),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildScheduleSection(
-                  'Morning Schedule for KAP MRT station to NP campus',
-                  _BusData.KAPArrivalTime,
-                  2,
+                // === Morning Schedule ===
+                Text(
+                  'Morning Schedule',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                SizedBox(height: 50.0),
-                _buildScheduleSection(
-                  'Morning Schedule for CLE MRT station to NP campus',
-                  _BusData.CLEArrivalTime,
-                  1,
+                SizedBox(height: 20),
+                Text(
+                  'From King Albert Park MRT Exit A to NP campus',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                SizedBox(height: 50.0),
-                _buildScheduleSection(
-                  'Afternoon Schedule for KAP MRT station to NP campus',
-                  _BusData.KAPDepartureTime,
-                  2,
+                _buildScheduleSection('', _BusData.KAPArrivalTime, 2),
+                SizedBox(height: 30),
+
+                Text(
+                  'From Clementi MRT Exit B to NP campus',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                SizedBox(height: 50.0),
-                _buildScheduleSection(
-                  'Afternoon Schedule for CLE MRT station to NP campus',
-                  _BusData.CLEDepartureTime,
-                  1,
+                _buildScheduleSection('', _BusData.CLEArrivalTime, 1),
+                SizedBox(height: 30),
+
+                // === Afternoon Schedule ===
+                Text(
+                  'Afternoon Schedule',
+                  style: TextStyle(
+                    fontSize: 22.0,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 20),
+
+                Text(
+                  'From NP campus to King Albert Park MRT OPP Exit A',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+
+                _buildScheduleSection('', _BusData.KAPDepartureTime, 2),
+                SizedBox(height: 30),
+
+                Text(
+                  'From NP campus to Clementi MRT Exit B',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: widget.isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
+                _buildScheduleSection('', _BusData.CLEDepartureTime, 1),
               ],
             ),
           ),

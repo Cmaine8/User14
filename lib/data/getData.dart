@@ -12,6 +12,20 @@ class BusData {
   final List<DateTime> KAPDepartureTime = [];
   final List<DateTime> CLEDepartureTime = [];
   final List<String> BusStop = [];
+
+  final Map<String, String> busStopCodeToName = {
+    'ENT': 'Main Entrance',
+    'B23': 'Block 23',
+    'SPH': 'Block 22 Sports Hall',
+    'SIT': 'Singapore Institute of Technology',
+    'B44': 'Block 44',
+    'B37': 'Block 37',
+    'MAP': 'Makan Place',
+    'HSC': 'School of Health Sciences',
+    'LCT': 'School of Life Sciences & Technology',
+    'B72': 'Block 72',
+  };
+
   String News = '';
   bool isDataLoaded = false;
 
@@ -26,7 +40,7 @@ class BusData {
       List<dynamic> positions = data['positions'];
       for (var position in positions) {
         String id = position['id'];
-        BusStop.add(id);
+        BusStop.add('${id} - ${busStopCodeToName[id] ?? 'Unknown Stop'}');
         print(id);
       }
 

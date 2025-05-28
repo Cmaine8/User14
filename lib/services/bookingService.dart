@@ -122,32 +122,29 @@ class _BookingServiceState extends State<BookingService> {
           'Capacity Indicator',
           style: TextStyle(
               fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w900,
+              fontWeight: FontWeight.w700,
               fontSize: 25,
               color: darkText
           ),
         ),
         SizedBox(height: 10),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(width: MediaQuery.of(context).size.width * 0.1),
-            Container(width: MediaQuery.of(context).size.width * 0.15, height: 5, color: Colors.green),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-            Text('Available', style: TextStyle(color: darkText)),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.2),
-            Container(width: MediaQuery.of(context).size.width * 0.15, height: 5, color: Colors.yellowAccent),
-            SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-            Text('Half Full', style: TextStyle(color: darkText),
-            )],
-        ),
-        SizedBox(height: 10),
-        Row(
-          children: [
-            SizedBox(width: MediaQuery.of(context).size.width * 0.4),
-            Text('FULL', style: TextStyle(color: darkText)),
-            Container(width: MediaQuery.of(context).size.width * 0.15, height: 5, color: Colors.red),
+            _buildIndicatorDot(Colors.green),
+            SizedBox(width: 8),
+            Text('Available', style: TextStyle(color: darkText, fontWeight: FontWeight.bold)),
+            SizedBox(width: 24),
+            _buildIndicatorDot(Colors.yellowAccent),
+            SizedBox(width: 8),
+            Text('Half Full', style: TextStyle(color: darkText, fontWeight: FontWeight.bold)),
+            SizedBox(width: 24),
+            _buildIndicatorDot(Colors.red),
+            SizedBox(width: 8),
+            Text('Full', style: TextStyle(color: darkText, fontWeight: FontWeight.bold)),
           ],
         ),
+        SizedBox(height: 10),
         ListView.builder(
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
@@ -206,6 +203,18 @@ class _BookingServiceState extends State<BookingService> {
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
+                                  if (count != null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12.0), // Move text slightly right
+                                      child: Text(
+                                        '${16 - count} seats available',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: _getColor(count), // Matches green/yellow/red logic
+                                        ),
+                                      ),
+                                    ),
                                 ],
                               ),
                             ),
@@ -266,4 +275,15 @@ class _BookingServiceState extends State<BookingService> {
       ],
     );
   }
+  Widget _buildIndicatorDot(Color color) {
+    return Container(
+      width: 20,
+      height: 6,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(3),
+      ),
+    );
+  }
+
 }

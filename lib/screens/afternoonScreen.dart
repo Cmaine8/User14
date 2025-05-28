@@ -12,6 +12,8 @@ import 'package:mini_project_five/data/global.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../data/getData.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:mini_project_five/data/global.dart';
 import '../services/bookingConfirmation.dart';
 import '../services/bookingService.dart';
 import '../services/sharedPreference.dart';
@@ -21,8 +23,8 @@ class Afternoon_Screen extends StatefulWidget {
   final Function(int) updateSelectedBox;
   static int eveningService = 15;
   final bool isDarkMode;
-
-  Afternoon_Screen({required this.updateSelectedBox, required this.isDarkMode});
+  final LatLng? currentLocation;
+  Afternoon_Screen({required this.updateSelectedBox, required this.isDarkMode, required this.currentLocation,});
 
   @override
   _Afternoon_ScreenState createState() => _Afternoon_ScreenState();
@@ -281,29 +283,38 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
     }
   }
 
-  void showBusStopSelectionBottomSheet(BuildContext context) {
+  void showBusStopSelectionBottomSheet(BuildContext context) async {
+    if (widget.currentLocation == null) return; // currentLocation is passed from mapPage
+
+    final Distance distance = Distance();
+
+    // Sort bus stops based on proximity to currentLocation
+    List<MapEntry<String, LatLng>> sortedStops = busStops.entries.toList()
+      ..sort((a, b) =>
+          distance(widget.currentLocation!, a.value).compareTo(
+              distance(widget.currentLocation!, b.value)));
+
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
         return Container(
           color: Colors.cyan[50],
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 5),
-                Text('Choose bus stop: ',
+          child: Column(
+            children: [
+              const SizedBox(height: 5),
+              const Text('Choose nearest bus stop:',
                   style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 20,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-                SizedBox(height: 5),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _BusData.BusStop.length -2,
-                  itemBuilder: (BuildContext context, int index) {
+                      fontFamily: 'Montserrat',
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900)),
+              const SizedBox(height: 5),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: sortedStops.length,
+                  itemBuilder: (context, index) {
+                    final code = sortedStops[index].key;
+                    final label = _BusData.busStopCodeToName[code] ?? 'Unknown';
+
                     return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
                       child: Container(
@@ -312,33 +323,29 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: ListTile(
-                          title: Text(_BusData.BusStop[index+2],
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontWeight: FontWeight.w900,
-                            ),),
+                          title: Text('$code - $label',
+                              style: const TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontWeight: FontWeight.w900)),
                           onTap: () {
-                            setState((){
-                              selectedBusStop = _BusData.BusStop[index+2];
-                              print("selectedbusStop = ${selectedBusStop}");
-                              busIndex = index+2;
-                              print("bus index = {busIndex}");
+                            setState(() {
+                              selectedBusStop = '$code - $label';
                             });
-                            // Handle bus stop selection here
-                            Navigator.pop(context); // Close the bottom sheet
+                            Navigator.pop(context);
                           },
                         ),
                       ),
                     );
                   },
                 ),
-              ],
-            ),
+              )
+            ],
           ),
         );
       },
     );
   }
+
 
   void updateSelectedBox(int box) {
     if (!confirmationPressed) {
@@ -500,7 +507,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Select MRT:',
+                    'Select MRT Station:',
                     style: TextStyle(
                       color: darkText,
                       //color: widget.isDarkMode ? Colors.white : Colors.black,
@@ -518,7 +525,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                               updateSelectedBox(1);
                             });
                           },
-                          child: MRT_Box(box: selectedBox, MRT: 'KAP')
+                          child: MRT_Box(box: selectedBox, MRT: 'KAP',label: "King Albert Park")
                         ),
                       ),
                       SizedBox(width: 8),
@@ -529,7 +536,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                               updateSelectedBox(2);
                             });
                           },
-                          child: MRT_Box(box: selectedBox, MRT: 'CLE')
+                          child: MRT_Box(box: selectedBox, MRT: 'CLE',label: "Clementi")
                         ),
                       ),
                     ],
@@ -605,7 +612,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
             children: [
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text('Select MRT:',
+                child: Text('Select MRT Station:',
                   style: TextStyle(
                     color: darkText,
                   ),),
@@ -621,7 +628,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                             updateSelectedBox(1);
                           });
                         } , // Update CLE
-                        child: MRT_Box(box: selectedBox, MRT: 'KAP')
+                        child: MRT_Box(box: selectedBox, MRT: 'KAP',label: "King Albert Park")
                       ),
                     ),
 
@@ -633,7 +640,7 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                             updateSelectedBox(2);
                           });
                         },  // Update CLE
-                        child: MRT_Box(box: selectedBox, MRT: 'CLE')
+                        child: MRT_Box(box: selectedBox, MRT: 'CLE',label: "Clementi")
                       ),
                     ),
 
