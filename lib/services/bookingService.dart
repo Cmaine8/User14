@@ -48,7 +48,7 @@ class _BookingServiceState extends State<BookingService> {
   bool _loading = true;
   int Vacancy_Green = 3;
   int Vacancy_Yellow = 4;
-  int Vacancy_Red = 5;
+  int Vacancy_Red = 30;
   DateTime now = DateTime.now();
 
   bool canConfirm() {
@@ -85,6 +85,7 @@ class _BookingServiceState extends State<BookingService> {
   void _updateBookingCounts() async {
     for (int i = 0; i < widget.departureTimes.length; i++) {
       int? count = await widget.countBooking(widget.selectedBox == 1 ? 'KAP' : 'CLE', i + 1);
+
       if (mounted){
         setState(() {
           bookingCounts[i] = count;
@@ -100,13 +101,14 @@ class _BookingServiceState extends State<BookingService> {
     return count != null && count >= Vacancy_Red;
   }
 
-  Color _getColor(int _count) {
-    if (_count < Vacancy_Green)
-      return Colors.green;
-    else if (_count >= Vacancy_Green && _count <= Vacancy_Yellow)
-      return Colors.yellowAccent;
-    else
+  Color _getColor(int availableSeats) {
+    if (availableSeats == 0) {
       return Colors.red;
+    } else if (availableSeats < 15) {
+      return Colors.amber;
+    } else {
+      return Colors.green;
+    }
   }
 
   @override
@@ -135,7 +137,7 @@ class _BookingServiceState extends State<BookingService> {
             SizedBox(width: 8),
             Text('Available', style: TextStyle(color: darkText, fontWeight: FontWeight.bold)),
             SizedBox(width: 24),
-            _buildIndicatorDot(Colors.yellowAccent),
+            _buildIndicatorDot(Colors.amber),
             SizedBox(width: 8),
             Text('Half Full', style: TextStyle(color: darkText, fontWeight: FontWeight.bold)),
             SizedBox(width: 24),
@@ -160,6 +162,9 @@ class _BookingServiceState extends State<BookingService> {
                   : widget.bookedTripIndexCLE == null;
               int? count = bookingCounts[index];
               bool isFull = _isFull(count);
+              int availableSeats = count != null ? 30 - count : 0;
+              Color seatColor = _getColor(availableSeats);
+
 
               return Padding(
                 padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
@@ -178,13 +183,27 @@ class _BookingServiceState extends State<BookingService> {
                               child: Row(
                                 children: [
                                   if (count != null)
-                                    Container(width: 8, height: 57, color: _getColor(count)),
-                                  Text(
-                                    ' Departure Trip ${index + 1}',
-                                    style: TextStyle(
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.w900,
-                                    ),
+                                    Container(width: 8, height: 57, color: seatColor),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        ' Departure Trip ${index + 1}',
+                                        style: TextStyle(
+                                          fontFamily: 'Roboto',
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                      if (count != null)
+                                        Text(
+                                          ' ${availableSeats} capacity available',
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w600,
+                                            color: seatColor,
+                                          ),
+                                        ),
+                                    ],
                                   ),
                                   SizedBox(width: 70),
                                   Padding(
@@ -203,18 +222,6 @@ class _BookingServiceState extends State<BookingService> {
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),
-                                  if (count != null)
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 12.0), // Move text slightly right
-                                      child: Text(
-                                        '${16 - count} seats available',
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w600,
-                                          color: _getColor(count), // Matches green/yellow/red logic
-                                        ),
-                                      ),
-                                    ),
                                 ],
                               ),
                             ),

@@ -18,6 +18,7 @@ import '../services/bookingConfirmation.dart';
 import '../services/bookingService.dart';
 import '../services/sharedPreference.dart';
 import '../utils/textStyles.dart';
+import '../services/notifications.dart';
 
 class Afternoon_Screen extends StatefulWidget {
   final Function(int) updateSelectedBox;
@@ -558,7 +559,12 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                   countBooking: countBooking,
                   isDarkMode: widget.isDarkMode,
                   showBusStopSelectionBottomSheet: showBusStopSelectionBottomSheet,
-                  onPressedConfirm: () {
+                  onPressedConfirm: () async{
+                    //1...
+
+                    DateTime tripTime = getDepartureTimes()[selectedBox == 1 ? bookedTripIndexKAP! : bookedTripIndexCLE!];
+                    await NotificationService.scheduleReminder(tripTime, 0);
+
                     setState(() {
                       confirmationPressed = true;
                       create(selectedStation, selectedBox == 1 ? bookedTripIndexKAP! + 1 : bookedTripIndexCLE! + 1, selectedBusStop);
@@ -576,7 +582,10 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                   getDepartureTimes: getDepartureTimes,
                   BusStop: data['busStop'],
                   isDarkMode: widget.isDarkMode,
-                  onCancel: ()  {
+                  onCancel: ()  async{
+                    //2...
+                    await NotificationService.cancelAll();
+
                     setState(() {
                       confirmationPressed = false;
                       print('Cancelling the booking...');
@@ -661,7 +670,9 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                   getDepartureTimes: getDepartureTimes,
                   BusStop: selectedBusStop,
                   isDarkMode: widget.isDarkMode,
-                  onCancel: ()  {
+                  onCancel: () async{
+                    //2...
+                    await NotificationService.cancelAll();
                     setState(() {
                       confirmationPressed = false;
                       print('Cancelling the booking...');
@@ -702,7 +713,11 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                   countBooking: countBooking,
                   isDarkMode: widget.isDarkMode,
                   showBusStopSelectionBottomSheet: showBusStopSelectionBottomSheet,
-                  onPressedConfirm: () {
+                  onPressedConfirm: () async{
+                    //1...
+                    DateTime tripTime = getDepartureTimes()[selectedBox == 1 ? bookedTripIndexKAP! : bookedTripIndexCLE!];
+                    await NotificationService.scheduleReminder(tripTime, 0);
+
                     setState(() {
                       confirmationPressed = true;
                       //showBookingDetails = true;

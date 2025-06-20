@@ -1041,7 +1041,7 @@ class _Map_PageState extends State<Map_Page> with WidgetsBindingObserver {
                         ),
                         displayPage,
                         SizedBox(height: 16),
-                        //News_Announcement_Widget(isDarkMode: _isDarkMode),
+                        News_Announcement_Widget(isDarkMode: _isDarkMode),
                         //SizedBox(height: 20),
                       ],
                     )

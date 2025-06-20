@@ -97,12 +97,25 @@ class _Morning_ScreenState extends State<Morning_Screen> {
                 children: [
                   ExpansionTile(
                     tilePadding: EdgeInsets.zero,
-                    title: Text(
-                      'Morning Bus Trips (NO BOOKING REQUIRED)',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Morning Bus Trips',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          '(NO BOOKING REQUIRED)',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[700],
+                          ),
+                        ),
+                      ],
                     ),
                     children: currentTimes.map((time) {
                       return ListTile(
