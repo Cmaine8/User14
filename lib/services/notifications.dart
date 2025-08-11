@@ -7,7 +7,8 @@ class NotificationService {
 
   static Future<void> init() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const settings = InitializationSettings(android: androidInit);
+    const iosInit = DarwinInitializationSettings();
+    const settings = InitializationSettings(android: androidInit, iOS: iosInit);
 
     await notiPlugin.initialize(settings);
 
@@ -17,7 +18,7 @@ class NotificationService {
 
   static Future<void> scheduleReminder(DateTime busTime, int id) async {
     final location = tz.local;
-    DateTime notifyTime = busTime.subtract(const Duration(minutes: 90));
+    DateTime notifyTime = busTime.subtract(const Duration(minutes: 3));
     DateTime now = DateTime.now(); //added
 
     // Skip scheduling if user books on/after notifyTime ADDED
