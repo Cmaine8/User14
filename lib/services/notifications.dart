@@ -27,7 +27,7 @@ class NotificationService {
 
   static Future<void> scheduleReminder(DateTime busTime, int id) async {
     final location = tz.local;
-    DateTime notifyTime = busTime.subtract(const Duration(minutes: 15));
+    DateTime notifyTime = busTime.subtract(const Duration(minutes: 3));
     DateTime now = DateTime.now(); //added
 
     // Skip scheduling if user books on/after notifyTime ADDED
