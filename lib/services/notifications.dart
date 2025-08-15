@@ -7,18 +7,27 @@ class NotificationService {
 
   static Future<void> init() async {
     const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const iosInit = DarwinInitializationSettings();
+    const iosInit = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      defaultPresentAlert: true,
+      defaultPresentBadge: true,
+      defaultPresentSound: true,
+    );
     const settings = InitializationSettings(android: androidInit, iOS: iosInit);
 
     await notiPlugin.initialize(settings);
 
     tz.initializeTimeZones(); // Required for scheduling
     tz.setLocalLocation(tz.getLocation('Asia/Singapore'));
+
+    await notiPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()?.requestPermissions(alert: true,badge: true,sound: true);
   }
 
   static Future<void> scheduleReminder(DateTime busTime, int id) async {
     final location = tz.local;
-    DateTime notifyTime = busTime.subtract(const Duration(minutes: 3));
+    DateTime notifyTime = busTime.subtract(const Duration(minutes: 15));
     DateTime now = DateTime.now(); //added
 
     // Skip scheduling if user books on/after notifyTime ADDED
@@ -36,7 +45,13 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.high,
     );
-    const platformDetails = NotificationDetails(android: androidDetails);
+
+    const iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+    );
+    const platformDetails = NotificationDetails(android: androidDetails,iOS: iosDetails);
 
 
 

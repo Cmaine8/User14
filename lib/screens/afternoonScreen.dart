@@ -461,7 +461,11 @@ class _Afternoon_ScreenState extends State<Afternoon_Screen> {
                 ),
                 BookingConfirmationText(
                   label: 'Bus Stop: ',
-                  value: '$selectedBusStop',
+                  value: (selectedBusStop ?? '')
+                      .split(RegExp(r'\s*[-–—]\s*')) // handles -, – or —
+                      .first
+                      .trim()
+                      .isEmpty ? '—' : (selectedBusStop ?? '').split(RegExp(r'\s*[-–—]\s*')).first.trim(),
                   // size: 0.23,
                   size: 0.30,
                 ),

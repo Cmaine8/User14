@@ -232,7 +232,11 @@ class _BookingConfirmationState extends State<BookingConfirmation> {
                         DrawLine(),
                         BookingConfirmationText(
                             label: 'Bus Stop',
-                            value: '${widget.BusStop}',
+                            value: (widget.BusStop ?? '')
+                                .split(RegExp(r'\s*[-–—]\s*')) // handles -, – or —
+                                .first
+                                .trim()
+                                .isEmpty ? '—' : (widget.BusStop ?? '').split(RegExp(r'\s*[-–—]\s*')).first.trim(),
                             size: 0.5),
                         SizedBox(height: 10),
                         Row(
